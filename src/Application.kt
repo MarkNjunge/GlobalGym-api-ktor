@@ -1,5 +1,7 @@
 package com.marknjunge
 
+import com.marknjunge.model.ApiResponse
+import com.marknjunge.router.router
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.request.*
@@ -28,6 +30,9 @@ fun Application.module() {
             log.error(cause.message)
             call.respond(HttpStatusCode.InternalServerError)
         }
+        status(HttpStatusCode.NotFound) {
+            call.respond(HttpStatusCode.NotFound, ApiResponse("Cannot ${call.request.httpMethod.value} ${call.request.path()}"))
+        }
     }
 
     install(CallLogging) {
@@ -40,8 +45,6 @@ fun Application.module() {
     }
 
     routing {
-        get("/") {
-            call.respondText("GlobalGym API", contentType = ContentType.Text.Plain)
-        }
+        router()
     }
 }
