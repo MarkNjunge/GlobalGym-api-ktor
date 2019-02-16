@@ -1,10 +1,22 @@
 # GlobalGym API
 A rewrite of [GlobalGym](https://github.com/MarkNjunge/GlobalGym-Android)'s api using [Ktor](https://ktor.io).
 
-## Cloning
-Create an `application.conf` in resources based on `resources/application.conf`.
-```Bash
+## Installation
+- Create a [PostgreSQL](https://www.postgresql.org/) database.  
+
+- Clone the repository
+```
+git clone git@github.com:MarkNjunge/GlobalGym-api-ktor.git
+```  
+
+- Create an `application.conf` in resources based on `resources/application.conf`.
+```
 cp resources/application.conf.sample resources/application.conf
+```
+- Modify the database config to match your settings.
+- Run from the cli using the command below or run the main function in `Application.kt` in an IDE
+```
+gradlew run
 ```
 
 ## Configuration
@@ -15,18 +27,9 @@ priority over the config file.
 | ENV variable      | .conf mapping               |
 | ----------------- | --------------------------- |
 | PORT              | ktor.deployment.port        |
-| DATABASE_URL      | database.url        |
+| DATABASE_URL      | database.url                |
 | DATABASE_USERNAME | database.username           |
 | DATABASE_PASSWORD | database.password           |
-
-## Running
-### Via an IDE
-Run the main function in `Application.kt`
-
-### Via the command line
-```Bash
-gradlew run
-```
 
 ## Building
 ### Jar
@@ -50,3 +53,6 @@ Run the image
 ```Bash
 docker run -it -p 3000:3000 --rm globalgym-api
 ```
+## Build with
+[Ktor](https://ktor.io/) - Web framework  
+[Jdbi](https://github.com/jdbi/jdbi) - Database access
