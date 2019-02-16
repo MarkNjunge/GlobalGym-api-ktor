@@ -7,6 +7,18 @@ Create an `application.conf` in resources based on `resources/application.conf`.
 cp resources/application.conf.sample resources/application.conf
 ```
 
+## Configuration
+
+The _application.conf_ file is the main way of setting configs. Environment variables can also be used and will take 
+priority over the config file.
+
+| ENV variable      | .conf mapping               |
+| ----------------- | --------------------------- |
+| PORT              | ktor.deployment.port        |
+| DATABASE_URL      | database.url        |
+| DATABASE_USERNAME | database.username           |
+| DATABASE_PASSWORD | database.password           |
+
 ## Running
 ### Via an IDE
 Run the main function in `Application.kt`
