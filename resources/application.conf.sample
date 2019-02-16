@@ -7,3 +7,9 @@ ktor {
         modules = [ com.marknjunge.ApplicationKt.module ]
     }
 }
+
+database {
+    url = "jdbc:postgresql://localhost:32768/global-gym"
+    username = "postgres"
+    password = "postgres"
+}

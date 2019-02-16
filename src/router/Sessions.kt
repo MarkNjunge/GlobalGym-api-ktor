@@ -6,7 +6,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.response.respond
 import io.ktor.routing.*
 
-fun Routing.sessions(){
+fun Route.sessions() {
     route("/sessions") {
         get("/") {
             call.respond(HttpStatusCode.NotImplemented, ApiResponse("Not implemented"))

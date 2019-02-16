@@ -28,10 +28,13 @@ fun Application.module() {
     install(StatusPages) {
         exception<Throwable> { cause ->
             log.error(cause.message)
-            call.respond(HttpStatusCode.InternalServerError)
+            call.respond(HttpStatusCode.InternalServerError, ApiResponse("An error has occurred"))
         }
         status(HttpStatusCode.NotFound) {
-            call.respond(HttpStatusCode.NotFound, ApiResponse("Cannot ${call.request.httpMethod.value} ${call.request.path()}"))
+            call.respond(
+                HttpStatusCode.NotFound,
+                ApiResponse("Cannot ${call.request.httpMethod.value} ${call.request.path()}")
+            )
         }
     }
 

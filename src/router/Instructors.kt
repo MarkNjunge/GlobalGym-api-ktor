@@ -4,12 +4,9 @@ import com.marknjunge.model.ApiResponse
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
 import io.ktor.response.respond
-import io.ktor.routing.Routing
-import io.ktor.routing.get
-import io.ktor.routing.post
-import io.ktor.routing.route
+import io.ktor.routing.*
 
-fun Routing.instructors(){
+fun Route.instructors(){
     route("/instructors") {
         get("/") {
             call.respond(HttpStatusCode.NotImplemented, ApiResponse("Not implemented"))

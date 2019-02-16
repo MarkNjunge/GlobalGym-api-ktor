@@ -26,6 +26,7 @@ repositories {
     mavenLocal()
     jcenter()
     maven { url 'https://kotlin.bintray.com/ktor' }
+    mavenCentral()
 }
 
 shadowJar {
@@ -41,4 +42,10 @@ dependencies {
     compile "io.ktor:ktor-server-core:$ktor_version"
     compile "io.ktor:ktor-server-host-common:$ktor_version"
     compile "io.ktor:ktor-gson:$ktor_version"
+    compile 'org.jdbi:jdbi3-bom:3.6.0'
+    compile 'org.jdbi:jdbi3-sqlobject:3.6.0'
+    compile 'org.jdbi:jdbi3-kotlin:3.6.0'
+    compile 'org.jdbi:jdbi3-kotlin-sqlobject:3.6.0'
+    compile 'org.jdbi:jdbi3-postgres:3.6.0'
+    compile 'org.postgresql:postgresql:42.2.5.jre7'
 }
