@@ -11,6 +11,7 @@ import io.ktor.http.*
 import io.ktor.features.*
 import org.slf4j.event.*
 import io.ktor.gson.*
+import io.ktor.util.error
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -26,13 +27,23 @@ fun Application.module() {
         }
     }
     install(StatusPages) {
-        exception<ItemNotFoundException>{
+        exception<ItemNotFoundException> {
             call.respond(HttpStatusCode.NotFound, ApiResponse(it.message!!))
         }
         exception<Throwable> { cause ->
-            log.error(cause.javaClass.name)
-            log.error(cause.message)
-            call.respond(HttpStatusCode.InternalServerError, ApiResponse("An error has occurred"))
+            log.error("${cause.javaClass.name}: ${cause.message}")
+
+            if (cause.message!!.contains("duplicate")) {
+                val message = cause.message!!
+                    .split("Detail: Key ")[1]
+                    .split(" already exists.")[0]
+                    .replace("(", "")
+                    .replace(")", "")
+                    .replace("=", " ")
+                call.respond(HttpStatusCode.Conflict, ApiResponse("$message already exists"))
+            } else {
+                call.respond(HttpStatusCode.InternalServerError, ApiResponse("An error has occurred: ${cause.message}"))
+            }
         }
         status(HttpStatusCode.NotFound) {
             call.respond(
