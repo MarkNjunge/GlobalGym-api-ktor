@@ -8,6 +8,7 @@ import org.jdbi.v3.sqlobject.kotlin.KotlinSqlObjectPlugin
 
 class Database(url: String, username: String, password: String) {
     val gymDao: GymDao
+    val userDao: UserDao
 
     init {
         val jdbi = Jdbi.create(url, username, password)
@@ -17,5 +18,6 @@ class Database(url: String, username: String, password: String) {
             .installPlugin(PostgresPlugin())
 
         gymDao = jdbi.onDemand(GymDao::class.java)
+        userDao = jdbi.onDemand(UserDao::class.java)
     }
 }

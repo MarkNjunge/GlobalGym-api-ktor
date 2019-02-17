@@ -19,7 +19,7 @@ fun Routing.router() {
         get("/"){
             call.respond("GlobalGym API")
         }
-        users()
+        users(database.userDao, database.gymDao)
         gyms(database.gymDao)
         instructors()
         sessions()
