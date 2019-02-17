@@ -2,6 +2,7 @@ package com.marknjunge
 
 import com.marknjunge.model.ApiResponse
 import com.marknjunge.router.router
+import com.marknjunge.utils.ItemNotFoundException
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.request.*
@@ -24,9 +25,12 @@ fun Application.module() {
             minimumSize(1024) // condition
         }
     }
-
     install(StatusPages) {
+        exception<ItemNotFoundException>{
+            call.respond(HttpStatusCode.NotFound, ApiResponse(it.message!!))
+        }
         exception<Throwable> { cause ->
+            log.error(cause.javaClass.name)
             log.error(cause.message)
             call.respond(HttpStatusCode.InternalServerError, ApiResponse("An error has occurred"))
         }

@@ -4,6 +4,7 @@ import com.marknjunge.db.GymDao
 import com.marknjunge.miniUUID
 import com.marknjunge.model.ApiResponse
 import com.marknjunge.model.Gym
+import com.marknjunge.utils.ItemNotFoundException
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
@@ -40,7 +41,7 @@ fun Route.gyms(gymDao: GymDao) {
 
             val gym = gymDao.selectById(id)
             if (gym == null) {
-                call.respond(HttpStatusCode.ExpectationFailed, ApiResponse("There is no gym with id $id"))
+                throw ItemNotFoundException("There is no gym with id $id")
             } else {
                 val imagesForGym = gymDao.selectImagesForGym(id)
                 call.respond(HttpStatusCode.OK, gym.copy(images = imagesForGym))

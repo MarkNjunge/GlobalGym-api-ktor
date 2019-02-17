@@ -4,6 +4,7 @@ import com.marknjunge.db.GymDao
 import com.marknjunge.db.UserDao
 import com.marknjunge.model.ApiResponse
 import com.marknjunge.model.User
+import com.marknjunge.utils.ItemNotFoundException
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
@@ -26,7 +27,7 @@ fun Route.users(userDao: UserDao, gymDao: GymDao) {
 
             val user = userDao.selectById(id)
             if (user == null) {
-                call.respond(HttpStatusCode.ExpectationFailed, ApiResponse("There is no user with id $id"))
+                throw ItemNotFoundException("There is no user with id $id")
             } else {
                 call.respond(HttpStatusCode.OK, user)
             }
