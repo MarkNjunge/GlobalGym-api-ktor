@@ -12,16 +12,16 @@ fun Routing.router() {
 
     val database = Database(config.database.url, config.database.username, config.database.password)
 
-    get("/"){
+    get("/") {
         call.respond("GlobalGym API")
     }
     route("/api") {
-        get("/"){
+        get("/") {
             call.respond("GlobalGym API")
         }
         users(database.userDao, database.gymDao)
         gyms(database.gymDao)
-        instructors()
+        instructors(database.instructorsDao, database.gymDao)
         sessions()
     }
 }

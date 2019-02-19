@@ -9,6 +9,7 @@ import org.jdbi.v3.sqlobject.kotlin.KotlinSqlObjectPlugin
 class Database(url: String, username: String, password: String) {
     val gymDao: GymDao
     val userDao: UserDao
+    val instructorsDao: InstructorsDao
 
     init {
         val jdbi = Jdbi.create(url, username, password)
@@ -23,5 +24,8 @@ class Database(url: String, username: String, password: String) {
 
         userDao = jdbi.onDemand(UserDao::class.java)
         userDao.createTable()
+
+        instructorsDao = jdbi.onDemand(InstructorsDao::class.java)
+        instructorsDao.createTable()
     }
 }
