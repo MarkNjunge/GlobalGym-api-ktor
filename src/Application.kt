@@ -10,9 +10,9 @@ import io.ktor.request.*
 import io.ktor.routing.*
 import io.ktor.http.*
 import io.ktor.features.*
-import org.slf4j.event.*
 import io.ktor.gson.*
-import io.ktor.http.content.*
+import io.ktor.util.pipeline.PipelinePhase
+import org.jdbi.v3.core.statement.UnableToCreateStatementException
 import java.io.File
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
@@ -33,7 +33,9 @@ fun Application.module() {
             call.respond(HttpStatusCode.NotFound, ApiResponse(it.message!!))
         }
         exception<Throwable> { cause ->
-            log.error("${cause.javaClass.name}: ${cause.message}")
+            if (cause.javaClass != UnableToCreateStatementException::class){
+            log.error("${cause.javaClass.simpleName}: ${cause.message}")
+            }
 
             if (cause.message!!.contains("duplicate")) {
                 val message = cause.message!!
@@ -60,13 +62,18 @@ fun Application.module() {
         }
     }
 
-    install(CallLogging) {
-        level = Level.INFO
-        filter { call -> call.request.path().startsWith("/") }
-    }
-
     install(ContentNegotiation) {
         gson {}
+    }
+
+    val loggingPhase = PipelinePhase("CustomLogging")
+    insertPhaseBefore(ApplicationCallPipeline.Monitoring, loggingPhase)
+
+    intercept(loggingPhase) {
+        proceed()
+        log.trace(
+            "${call.response.status()?.value ?: "Unhandled"}: ${call.request.httpMethod.value} - ${call.request.path()}"
+        )
     }
 
     routing {
