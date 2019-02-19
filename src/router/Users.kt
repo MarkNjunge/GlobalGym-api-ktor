@@ -15,7 +15,22 @@ fun Route.users(userDao: UserDao, gymDao: GymDao) {
 
     route("/users") {
         get("/") {
-            call.respond(HttpStatusCode.OK, userDao.selectAll())
+            // Convert the list of GymImage to a map of gymId, imagesUrl
+            val imageMap: MutableMap<String, MutableList<String>> = mutableMapOf()
+            gymDao.selectAllImages().forEach { gymImage ->
+                if (imageMap[gymImage.id] == null) {
+                    imageMap[gymImage.id] = mutableListOf()
+                }
+                imageMap[gymImage.id]!!.add(gymImage.url)
+            }
+
+            val users = userDao.selectAll().map { user ->
+                user.preferredGym?.let { gym ->
+                    user.copy(preferredGym = user.preferredGym.copy(images = imageMap[gym.id] ?: mutableListOf()))
+                } ?: user
+            }
+
+            call.respond(HttpStatusCode.OK, users)
         }
         get("/{id}") {
             val id = call.parameters["id"]
@@ -28,8 +43,33 @@ fun Route.users(userDao: UserDao, gymDao: GymDao) {
             if (user == null) {
                 throw ItemNotFoundException("There is no user with id $id")
             } else {
-                call.respond(HttpStatusCode.OK, user)
+                val gym = user.preferredGym?.let { gym ->
+                    val imagesForGym = gymDao.selectImagesForGym(gym.id)
+                    gym.copy(images = imagesForGym)
+                }
+                call.respond(HttpStatusCode.OK, user.copy(preferredGym = gym))
             }
+        }
+        post("/{id}/gym/add") {
+            val params = call.receive<Map<String, String>>()
+            val userId = call.parameters["id"]
+            val gymId = params["gymId"]
+
+            if ( gymId == null) {
+                call.respond(HttpStatusCode.BadRequest, "gymId is required")
+                return@post
+            }
+
+            userDao.setPreferredGym(userId!!, gymId)
+
+            call.respond(HttpStatusCode.OK, ApiResponse("Gym added"))
+        }
+        post("/{id}/gym/remove") {
+            val userId = call.parameters["id"]
+
+            userDao.removePreferredGym(userId!!)
+
+            call.respond(HttpStatusCode.OK, ApiResponse("Gym removed"))
         }
         post("/create") {
             val user = call.receive<User>()

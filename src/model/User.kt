@@ -22,5 +22,6 @@ data class User(
     @ColumnName("weight")
     val weight: Int,
     @ColumnName("target_weight")
-    val targetWeight: Int
+    val targetWeight: Int,
+    val preferredGym: Gym?
 )
