@@ -13,8 +13,6 @@ import io.ktor.routing.*
 import model.GymImage
 
 fun Route.gyms(gymDao: GymDao) {
-    gymDao.createTable()
-    gymDao.createImagesTable()
 
     route("/gyms") {
         get("/") {

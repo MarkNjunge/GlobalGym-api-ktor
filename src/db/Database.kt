@@ -18,6 +18,10 @@ class Database(url: String, username: String, password: String) {
             .installPlugin(PostgresPlugin())
 
         gymDao = jdbi.onDemand(GymDao::class.java)
+        gymDao.createTable()
+        gymDao.createImagesTable()
+
         userDao = jdbi.onDemand(UserDao::class.java)
+        userDao.createTable()
     }
 }

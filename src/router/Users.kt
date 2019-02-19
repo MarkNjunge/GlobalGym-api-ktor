@@ -12,7 +12,6 @@ import io.ktor.response.respond
 import io.ktor.routing.*
 
 fun Route.users(userDao: UserDao, gymDao: GymDao) {
-    userDao.createTable()
 
     route("/users") {
         get("/") {
