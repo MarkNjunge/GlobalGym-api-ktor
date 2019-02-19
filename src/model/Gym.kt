@@ -27,5 +27,5 @@ data class Gym(
     val cordsLat: Float,
     @ColumnName("cords_lng")
     val cordsLng: Float,
-    val images: List<String> = listOf()
+    val images: List<String>? = listOf()
 )
