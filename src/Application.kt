@@ -1,7 +1,8 @@
 package com.marknjunge
 
 import com.marknjunge.model.ApiResponse
-import com.marknjunge.router.router
+import com.marknjunge.router.apiRouter
+import com.marknjunge.router.staticRouter
 import com.marknjunge.utils.ItemNotFoundException
 import io.ktor.application.*
 import io.ktor.response.*
@@ -11,7 +12,8 @@ import io.ktor.http.*
 import io.ktor.features.*
 import org.slf4j.event.*
 import io.ktor.gson.*
-import io.ktor.util.error
+import io.ktor.http.content.*
+import java.io.File
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -46,10 +48,15 @@ fun Application.module() {
             }
         }
         status(HttpStatusCode.NotFound) {
-            call.respond(
-                HttpStatusCode.NotFound,
-                ApiResponse("Cannot ${call.request.httpMethod.value} ${call.request.path()}")
-            )
+            // For api requests send json, for others send a 404 page
+            if (call.request.path().contains("api")) {
+                call.respond(
+                    HttpStatusCode.NotFound,
+                    ApiResponse("Cannot ${call.request.httpMethod.value} ${call.request.path()}")
+                )
+            } else {
+                call.respondFile(File("resources/web/404.html"))
+            }
         }
     }
 
@@ -63,6 +70,7 @@ fun Application.module() {
     }
 
     routing {
-        router()
+        staticRouter()
+        apiRouter()
     }
 }
