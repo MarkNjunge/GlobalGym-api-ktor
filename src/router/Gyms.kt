@@ -9,6 +9,7 @@ import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
 import io.ktor.response.respond
+import io.ktor.response.respondRedirect
 import io.ktor.routing.*
 import model.GymImage
 
@@ -42,10 +43,11 @@ fun Route.gyms(gymDao: GymDao) {
             }
         }
         get("/nearby") {
-            val lat = call.request.queryParameters["lat"]
-            val lng = call.request.queryParameters["lng"]
-            val radius = call.request.queryParameters["radius"]
-            call.respond(HttpStatusCode.NotImplemented, ApiResponse("Not implemented. $lat, $lng, $radius"))
+//            val lat = call.request.queryParameters["lat"]
+//            val lng = call.request.queryParameters["lng"]
+//            val radius = call.request.queryParameters["radius"]
+            // TODO query database for nearby
+            call.respondRedirect("/api/gyms", true)
         }
         get("/search") {
             val name = call.request.queryParameters["name"]
