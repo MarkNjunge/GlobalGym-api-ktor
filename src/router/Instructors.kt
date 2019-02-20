@@ -2,7 +2,7 @@ package com.marknjunge.router
 
 import com.marknjunge.db.GymDao
 import com.marknjunge.db.InstructorsDao
-import com.marknjunge.miniUUID
+import com.marknjunge.utils.miniUUID
 import com.marknjunge.model.ApiResponse
 import com.marknjunge.model.Instructor
 import com.marknjunge.utils.ItemNotFoundException
@@ -15,22 +15,7 @@ import io.ktor.routing.*
 fun Route.instructors(instructorsDao: InstructorsDao, gymDao: GymDao) {
     route("/instructors") {
         get("/") {
-            // Convert the list of GymImage to a map of gymId, imagesUrl
-            val imageMap: MutableMap<String, MutableList<String>> = mutableMapOf()
-            gymDao.selectAllImages().forEach { gymImage ->
-                if (imageMap[gymImage.id] == null) {
-                    imageMap[gymImage.id] = mutableListOf()
-                }
-                imageMap[gymImage.id]!!.add(gymImage.url)
-            }
-
-            val instructors = instructorsDao.selectAll().map { instructor ->
-                instructor.gym?.let { gym ->
-                    instructor.copy(gym = instructor.gym.copy(images = imageMap[gym.id] ?: mutableListOf()))
-                } ?: instructor
-            }
-
-            call.respond(HttpStatusCode.OK, instructors)
+            call.respond(HttpStatusCode.OK, instructorsDao.selectAll())
         }
         get("/{id}") {
             val id = call.parameters["id"]!!
@@ -39,11 +24,7 @@ fun Route.instructors(instructorsDao: InstructorsDao, gymDao: GymDao) {
             if (instructor == null) {
                 throw ItemNotFoundException("There is no instructor with id $id")
             } else {
-                val gym = instructor.gym?.let { gym ->
-                    val imagesForGym = gymDao.selectImagesForGym(gym.id)
-                    gym.copy(images = imagesForGym)
-                }
-                call.respond(HttpStatusCode.OK, instructor.copy(gym = gym))
+                call.respond(HttpStatusCode.OK, instructor)
             }
         }
         post("/{id}/gym/add") {

@@ -26,7 +26,7 @@ fun Routing.apiRouter() {
         get("/") {
             call.respond("GlobalGym API")
         }
-        users(database.userDao, database.gymDao)
+        users(database.userDao)
         gyms(database.gymDao)
         instructors(database.instructorsDao, database.gymDao)
         sessions(database.sessionsDao)

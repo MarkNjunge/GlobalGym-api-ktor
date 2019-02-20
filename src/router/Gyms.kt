@@ -1,7 +1,7 @@
 package com.marknjunge.router
 
 import com.marknjunge.db.GymDao
-import com.marknjunge.miniUUID
+import com.marknjunge.utils.miniUUID
 import com.marknjunge.model.ApiResponse
 import com.marknjunge.model.Gym
 import com.marknjunge.utils.ItemNotFoundException
@@ -11,24 +11,12 @@ import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.response.respondRedirect
 import io.ktor.routing.*
-import model.GymImage
 
 fun Route.gyms(gymDao: GymDao) {
 
     route("/gyms") {
         get("/") {
-            // Convert the list of GymImage to a map of gymId, imagesUrl
-            val imageMap: MutableMap<String, MutableList<String>> = mutableMapOf()
-            gymDao.selectAllImages().forEach { gymImage ->
-                if (imageMap[gymImage.id] == null) {
-                    imageMap[gymImage.id] = mutableListOf()
-                }
-                imageMap[gymImage.id]!!.add(gymImage.url)
-            }
-
-            val gyms = gymDao.selectAll().map { gym ->
-                gym.copy(images = imageMap[gym.id] ?: mutableListOf())
-            }
+            val gyms = gymDao.selectAll()
             call.respond(HttpStatusCode.OK, gyms)
         }
         get("/{id}") {
@@ -38,8 +26,7 @@ fun Route.gyms(gymDao: GymDao) {
             if (gym == null) {
                 throw ItemNotFoundException("There is no gym with id $id")
             } else {
-                val imagesForGym = gymDao.selectImagesForGym(id)
-                call.respond(HttpStatusCode.OK, gym.copy(images = imagesForGym))
+                call.respond(HttpStatusCode.OK, gym)
             }
         }
         get("/nearby") {
@@ -67,18 +54,6 @@ fun Route.gyms(gymDao: GymDao) {
             val gym = call.receive<Gym>()
             gymDao.update(gym)
             call.respond(HttpStatusCode.OK, gym)
-        }
-        route("/images") {
-            post("/add") {
-                val (id, url) = call.receive<GymImage>()
-                gymDao.insertImage(id, url)
-                call.respond(HttpStatusCode.OK, ApiResponse("Image added"))
-            }
-            delete("/remove") {
-                val (id, url) = call.receive<GymImage>()
-                gymDao.removeImage(id, url)
-                call.respond(HttpStatusCode.OK, ApiResponse("Image removed"))
-            }
         }
 
         route("/instructors") {

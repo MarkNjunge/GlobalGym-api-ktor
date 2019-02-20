@@ -1,7 +1,7 @@
 package com.marknjunge.router
 
 import com.marknjunge.db.SessionsDao
-import com.marknjunge.miniUUID
+import com.marknjunge.utils.miniUUID
 import com.marknjunge.model.ApiResponse
 import com.marknjunge.model.Session
 import io.ktor.application.call

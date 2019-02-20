@@ -10,7 +10,7 @@ import org.jdbi.v3.sqlobject.statement.SqlUpdate
 import org.jdbi.v3.sqlobject.statement.UseRowMapper
 import java.sql.ResultSet
 
-interface InstructorsDao{
+interface InstructorsDao {
     @SqlUpdate(
         """
     CREATE TABLE IF NOT EXISTS instructors
@@ -98,6 +98,7 @@ interface InstructorsDao{
        gyms.logo,
        gyms.phone,
        gyms.website,
+       gyms.images,
        gyms.open_time,
        gyms.close_time,
        gyms.available,
@@ -132,6 +133,7 @@ interface InstructorsDao{
                     rs.getString("logo"),
                     rs.getString("phone"),
                     rs.getString("website"),
+                    listOf(), // TODO Fix
                     rs.getInt("open_time"),
                     rs.getInt("close_time"),
                     rs.getBoolean("available"),

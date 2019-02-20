@@ -106,6 +106,7 @@ interface UserDao {
        gyms.logo,
        gyms.phone,
        gyms.website,
+       gyms.images,
        gyms.open_time,
        gyms.close_time,
        gyms.available,
@@ -140,6 +141,7 @@ interface UserDao {
                     rs.getString("logo"),
                     rs.getString("phone"),
                     rs.getString("website"),
+                    listOf(), // TODO Fix
                     rs.getInt("open_time"),
                     rs.getInt("close_time"),
                     rs.getBoolean("available"),

@@ -25,7 +25,6 @@ class Database(url: String, username: String, password: String) {
 
         gymDao = jdbi.onDemand(GymDao::class.java)
         gymDao.createTable()
-        gymDao.createImagesTable()
 
         userDao = jdbi.onDemand(UserDao::class.java)
         userDao.createTable()
