@@ -31,11 +31,7 @@ fun Route.gyms(gymDao: GymDao) {
             call.respond(HttpStatusCode.OK, gyms)
         }
         get("/{id}") {
-            val id = call.parameters["id"]
-            if (id.isNullOrEmpty()) {
-                call.respond(HttpStatusCode.BadRequest, ApiResponse("id path parameter is required"))
-                return@get
-            }
+            val id = call.parameters["id"]!!
 
             val gym = gymDao.selectById(id)
             if (gym == null) {
@@ -74,13 +70,11 @@ fun Route.gyms(gymDao: GymDao) {
             post("/add") {
                 val (id, url) = call.receive<GymImage>()
                 gymDao.insertImage(id, url)
-
                 call.respond(HttpStatusCode.OK, ApiResponse("Image added"))
             }
             delete("/remove") {
                 val (id, url) = call.receive<GymImage>()
                 gymDao.removeImage(id, url)
-
                 call.respond(HttpStatusCode.OK, ApiResponse("Image removed"))
             }
         }

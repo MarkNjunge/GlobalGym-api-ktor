@@ -13,12 +13,7 @@ import io.ktor.routing.*
 fun Route.sessions(sessionsDao: SessionsDao) {
     route("/sessions") {
         get("/{id}") {
-            val id = call.parameters["id"]
-            if (id.isNullOrEmpty()) {
-                call.respond(HttpStatusCode.BadRequest, ApiResponse("id path parameter is required"))
-                return@get
-            }
-
+            val id = call.parameters["id"]!!
             call.respond(HttpStatusCode.OK, sessionsDao.selectForUser(id))
         }
         post("/create") {
@@ -32,12 +27,7 @@ fun Route.sessions(sessionsDao: SessionsDao) {
             call.respond(HttpStatusCode.OK, ApiResponse("Session update"))
         }
         delete("/delete/{id}") {
-            val id = call.parameters["id"]
-            if (id.isNullOrEmpty()) {
-                call.respond(HttpStatusCode.BadRequest, ApiResponse("id path parameter is required"))
-                return@delete
-            }
-
+            val id = call.parameters["id"]!!
             sessionsDao.deleteSession(id)
             call.respond(HttpStatusCode.OK, ApiResponse("Session deleted"))
         }

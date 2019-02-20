@@ -33,11 +33,7 @@ fun Route.users(userDao: UserDao, gymDao: GymDao) {
             call.respond(HttpStatusCode.OK, users)
         }
         get("/{id}") {
-            val id = call.parameters["id"]
-            if (id.isNullOrEmpty()) {
-                call.respond(HttpStatusCode.BadRequest, ApiResponse("id path parameter is required"))
-                return@get
-            }
+            val id = call.parameters["id"]!!
 
             val user = userDao.selectById(id)
             if (user == null) {
@@ -51,24 +47,21 @@ fun Route.users(userDao: UserDao, gymDao: GymDao) {
             }
         }
         post("/{id}/gym/add") {
-            val params = call.receive<Map<String, String>>()
-            val userId = call.parameters["id"]
-            val gymId = params["gymId"]
+            val gymId = call.receive<Map<String, String>>()["gymId"]
+            val userId = call.parameters["id"]!!
 
             if ( gymId == null) {
                 call.respond(HttpStatusCode.BadRequest, "gymId is required")
                 return@post
             }
 
-            userDao.setPreferredGym(userId!!, gymId)
+            userDao.setPreferredGym(userId, gymId)
 
             call.respond(HttpStatusCode.OK, ApiResponse("Gym added"))
         }
         post("/{id}/gym/remove") {
-            val userId = call.parameters["id"]
-
-            userDao.removePreferredGym(userId!!)
-
+            val userId = call.parameters["id"]!!
+            userDao.removePreferredGym(userId)
             call.respond(HttpStatusCode.OK, ApiResponse("Gym removed"))
         }
         post("/create") {

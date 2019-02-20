@@ -33,11 +33,7 @@ fun Route.instructors(instructorsDao: InstructorsDao, gymDao: GymDao) {
             call.respond(HttpStatusCode.OK, instructors)
         }
         get("/{id}") {
-            val id = call.parameters["id"]
-            if (id.isNullOrEmpty()) {
-                call.respond(HttpStatusCode.BadRequest, ApiResponse("id path parameter is required"))
-                return@get
-            }
+            val id = call.parameters["id"]!!
 
             val instructor = instructorsDao.selectById(id)
             if (instructor == null) {
@@ -65,10 +61,8 @@ fun Route.instructors(instructorsDao: InstructorsDao, gymDao: GymDao) {
             call.respond(HttpStatusCode.OK, ApiResponse("Gym added"))
         }
         post("/{id}/gym/remove") {
-            val instructorId = call.parameters["id"]
-
-            instructorsDao.removeGym(instructorId!!)
-
+            val instructorId = call.parameters["id"]!!
+            instructorsDao.removeGym(instructorId)
             call.respond(HttpStatusCode.OK, ApiResponse("Gym removed"))
         }
         post("/create") {
