@@ -1,27 +1,32 @@
+
 # GlobalGym API
 A rewrite of [GlobalGym](https://github.com/MarkNjunge/GlobalGym-Android)'s api using [Ktor](https://ktor.io).
 
 ## Installation
-- Create a [PostgreSQL](https://www.postgresql.org/) database.  
+- Create a [PostgreSQL](https://www.postgresql.org/) database.
 
 - Clone the repository
 ```
 git clone git@github.com:MarkNjunge/GlobalGym-api-ktor.git
-```  
+```
 
 - Create an `application.conf` in resources based on `resources/application.conf`.
 ```
 cp resources/application.conf.sample resources/application.conf
 ```
 - Modify the database config to match your settings.
-- Run from the cli using the command below or run the main function in `Application.kt` in an IDE
+- Build the routes documentation.  Requires [VuePress](https://vuepress.vuejs.org/) to be installed.
+```
+vuepress build resources\docs
+```
+- Run the main function in `Application.kt` in an IDE or run the command below in a cli
 ```
 gradlew run
 ```
 
 ## Configuration
 
-The _application.conf_ file is the main way of setting configs. Environment variables can also be used and will take 
+The _application.conf_ file is the main way of setting configs. Environment variables can also be used and will take
 priority over the config file.
 
 | ENV variable      | .conf mapping               |
@@ -33,6 +38,11 @@ priority over the config file.
 
 ## Building
 ### Jar
+Build the routes documentation.  Requires [VuePress](https://vuepress.vuejs.org/) to be installed.
+```
+vuepress build resources\docs
+```
+Build the jar
 ```Bash
 gradlew shadowJar
 ```
@@ -41,6 +51,10 @@ You can then run the jar using
 java -jar build\libs\globalgym-api.jar
 ```
 ### Docker
+Build the routes documentation.  Requires [VuePress](https://vuepress.vuejs.org/) to be installed.
+```
+vuepress build resources\docs
+```
 Build the jar
 ```Bash
 gradlew shadowJar
@@ -54,5 +68,5 @@ Run the image
 docker run -it -p 3000:3000 --rm globalgym-api
 ```
 ## Build with
-[Ktor](https://ktor.io/) - Web framework  
+[Ktor](https://ktor.io/) - Web framework
 [Jdbi](https://github.com/jdbi/jdbi) - Database access

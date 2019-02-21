@@ -76,6 +76,9 @@ fun Application.module() {
         )
     }
 
+    val vuepressDistFolder = File("resources/docs/.vuepress/dist")
+    if(!vuepressDistFolder.exists()) log.warn("vuepress has not been built. /docs will not be available.")
+
     routing {
         staticRouter()
         apiRouter()

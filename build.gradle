@@ -35,6 +35,10 @@ shadowJar {
     version = null
 }
 
+task docs(type: Exec) {
+    commandLine 'cmd', '/c', 'vuepress build resources\\docs'
+}
+
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "io.ktor:ktor-server-netty:$ktor_version"

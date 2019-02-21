@@ -6,3 +6,4 @@
 *.ipr
 *.iws
 resources/application.conf
+resources/docs/.vuepress/dist
