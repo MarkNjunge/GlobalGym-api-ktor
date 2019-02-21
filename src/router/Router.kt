@@ -17,28 +17,21 @@ fun Routing.staticRouter() {
     }
     // Serving static assets using resources() doesn't work with .folder
     route("/assets") {
-        get("/css/*") {
-            val pathName = call.request.path().split("assets/css/")[1]
-            call.respondFile(File("resources/docs/.vuepress/dist/assets/css/$pathName"))
-        }
-        get("/img/*") {
-            val pathName = call.request.path().split("assets/img/")[1]
-            call.respondFile(File("resources/docs/.vuepress/dist/assets/img/$pathName"))
-        }
-        get("/js/*") {
-            val pathName = call.request.path().split("assets/js/")[1]
-            call.respondFile(File("resources/docs/.vuepress/dist/assets/js/$pathName"))
+        get("/{...}") {
+            val pathName = call.request.path().split("assets/")[1]
+            call.respondFile(File("resources/docs/.vuepress/dist/assets/$pathName"))
         }
     }
     // Respond to requests to /docs with vuepress generated files
     route("/docs") {
-        get("/") {
-            call.respondFile(File("resources/docs/.vuepress/dist/docs/index.html"))
-        }
-        // Handle requests to specific files. Note: This won't work with subfolders/subpaths
-        get("*") {
-            val pathName = call.request.path().split("docs/")[1]
-            val f = File("resources/docs/.vuepress/dist/docs/$pathName")
+        get("/{...}") {
+            val split = call.request.path().split("docs/")
+            if (split.size == 1) {
+                call.respondFile(File("resources/docs/.vuepress/dist/docs/index.html"))
+                return@get
+            }
+
+            val f = File("resources/docs/.vuepress/dist/docs/${split[1]}")
             if (f.exists()) {
                 call.respondFile(f)
             } else {
