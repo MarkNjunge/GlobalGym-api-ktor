@@ -33,8 +33,8 @@ fun Application.module() {
             call.respond(HttpStatusCode.NotFound, ApiResponse(it.message!!))
         }
         exception<Throwable> { cause ->
-            if (cause.javaClass != UnableToCreateStatementException::class){
-            log.error("${cause.javaClass.simpleName}: ${cause.message}")
+            if (cause.javaClass != UnableToCreateStatementException::class) {
+                log.error("${cause.javaClass.simpleName}: ${cause.message}")
             }
 
             if (cause.message!!.contains("duplicate")) {

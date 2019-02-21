@@ -12,7 +12,7 @@ import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.*
 
-fun Route.instructors(instructorsDao: InstructorsDao, gymDao: GymDao) {
+fun Route.instructors(instructorsDao: InstructorsDao) {
     route("/instructors") {
         get("/") {
             call.respond(HttpStatusCode.OK, instructorsDao.selectAll())
