@@ -12,7 +12,7 @@ import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.*
 
-fun Route.instructors(instructorsDao: InstructorsDao) {
+fun Route.instructors(instructorsDao: InstructorsDao, gymDao: GymDao) {
     route("/instructors") {
         get("/") {
             call.respond(HttpStatusCode.OK, instructorsDao.selectAll())
@@ -20,19 +20,29 @@ fun Route.instructors(instructorsDao: InstructorsDao) {
         get("/{id}") {
             val id = call.parameters["id"]!!
 
-            val instructor = instructorsDao.selectById(id)
-            if (instructor == null) {
-                throw ItemNotFoundException("There is no instructor with id $id")
-            } else {
-                call.respond(HttpStatusCode.OK, instructor)
-            }
+            val instructor =
+                instructorsDao.selectById(id) ?: throw ItemNotFoundException("There is no instructor with id $id")
+            call.respond(HttpStatusCode.OK, instructor)
+        }
+        get("/{id}/gym") {
+            val id = call.parameters["id"]!!
+
+            val instructor =
+                instructorsDao.selectById(id) ?: throw ItemNotFoundException("There is no instructor with id $id")
+
+            if (instructor.gym == null) throw ItemNotFoundException("The instructor does not have a gym.")
+
+            val gym =
+                gymDao.selectById(instructor.gym)
+                    ?: throw ItemNotFoundException("There was a problem getting the instructor's gym")
+            call.respond(HttpStatusCode.OK, gym)
         }
         post("/{id}/gym/add") {
             val params = call.receive<Map<String, String>>()
             val instructorId = call.parameters["id"]
             val gymId = params["gymId"]
 
-            if ( gymId == null) {
+            if (gymId == null) {
                 call.respond(HttpStatusCode.BadRequest, "gymId is required")
                 return@post
             }

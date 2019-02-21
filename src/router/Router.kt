@@ -28,7 +28,7 @@ fun Routing.apiRouter() {
         }
         users(database.userDao)
         gyms(database.gymDao)
-        instructors(database.instructorsDao)
+        instructors(database.instructorsDao, database.gymDao)
         sessions(database.sessionsDao)
     }
 }

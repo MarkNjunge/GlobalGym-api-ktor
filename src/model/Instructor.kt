@@ -19,5 +19,6 @@ data class Instructor(
     val gender: Char,
     @ColumnName("country")
     val country: String,
-    val gym: Gym?
+    @ColumnName("gym")
+    val gym: String?
 )
