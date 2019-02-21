@@ -67,6 +67,7 @@ Run the image
 ```Bash
 docker run -it -p 3000:3000 --rm globalgym-api
 ```
-## Build with
+## Built with
 [Ktor](https://ktor.io/) - Web framework
+
 [Jdbi](https://github.com/jdbi/jdbi) - Database access
