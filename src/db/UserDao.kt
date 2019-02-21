@@ -57,71 +57,11 @@ interface UserDao {
     )
     fun update(user: User)
 
-    @SqlQuery(
-        """
-    SELECT users.id AS u_id,
-       users.first_name,
-       users.last_name,
-       users.email,
-       users.photo,
-       users.year_of_birth,
-       users.gender,
-       users.country AS u_country,
-       users.weight,
-       users.target_weight,
-       gyms.id  AS g_id,
-       gyms.name,
-       gyms.logo,
-       gyms.phone,
-       gyms.website,
-       gyms.open_time,
-       gyms.close_time,
-       gyms.available,
-       gyms.country AS g_country,
-       gyms.city,
-       gyms.cords_lat,
-       gyms.cords_lng
-    FROM   users
-           LEFT JOIN gyms
-                  ON users.preferred_gym = gyms.id;
-    """
-    )
-    @UseRowMapper(UserGymMapper::class)
+    @SqlQuery("SELECT * FROM users")
     fun selectAll(): List<User>
 
-    @SqlQuery(
-        """
-    SELECT users.id AS u_id,
-       users.first_name,
-       users.last_name,
-       users.email,
-       users.photo,
-       users.year_of_birth,
-       users.gender,
-       users.country AS u_country,
-       users.weight,
-       users.target_weight,
-       gyms.id  AS g_id,
-       gyms.name,
-       gyms.logo,
-       gyms.phone,
-       gyms.website,
-       gyms.images,
-       gyms.open_time,
-       gyms.close_time,
-       gyms.available,
-       gyms.country AS g_country,
-       gyms.city,
-       gyms.cords_lat,
-       gyms.cords_lng
-    FROM   users
-           LEFT JOIN gyms
-                  ON users.preferred_gym = gyms.id
-    WHERE users.id=:userId
-    """
-    )
+    @SqlQuery("SELECT * FROM users WHERE users.id=:userId")
     @SingleValue
-    @UseRowMapper(UserGymMapper::class)
     fun selectById(userId: String): User?
 
     @SqlUpdate("UPDATE users SET preferred_gym = :gymId WHERE users.id=:userId")
@@ -130,41 +70,4 @@ interface UserDao {
     @SqlUpdate("UPDATE users SET preferred_gym = NULL WHERE users.id=:userId")
     fun removePreferredGym(userId: String)
 
-    class UserGymMapper : RowMapper<User> {
-        override fun map(rs: ResultSet, ctx: StatementContext): User {
-            val gym = if (rs.getString("g_id") == null) {
-                null
-            } else {
-                Gym(
-                    rs.getString("g_id"),
-                    rs.getString("name"),
-                    rs.getString("logo"),
-                    rs.getString("phone"),
-                    rs.getString("website"),
-                    listOf(), // TODO Fix
-                    rs.getInt("open_time"),
-                    rs.getInt("close_time"),
-                    rs.getBoolean("available"),
-                    rs.getString("g_country"),
-                    rs.getString("city"),
-                    rs.getFloat("cords_lat"),
-                    rs.getFloat("cords_lng")
-                )
-            }
-
-            return User(
-                rs.getString("u_id"),
-                rs.getString("first_name"),
-                rs.getString("last_name"),
-                rs.getString("email"),
-                rs.getString("photo"),
-                rs.getInt("year_of_birth"),
-                rs.getString("gender").toCharArray().first(),
-                rs.getString("u_country"),
-                rs.getInt("weight"),
-                rs.getInt("target_weight"),
-                gym
-            )
-        }
-    }
 }

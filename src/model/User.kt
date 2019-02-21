@@ -23,5 +23,6 @@ data class User(
     val weight: Int,
     @ColumnName("target_weight")
     val targetWeight: Int,
-    val preferredGym: Gym?
+    @ColumnName("preferred_gym")
+    val preferredGym: String?
 )

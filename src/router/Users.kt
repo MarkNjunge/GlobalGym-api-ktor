@@ -11,7 +11,7 @@ import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.*
 
-fun Route.users(userDao: UserDao) {
+fun Route.users(userDao: UserDao, gymDao: GymDao) {
 
     route("/users") {
         get("/") {
@@ -19,19 +19,28 @@ fun Route.users(userDao: UserDao) {
         }
         get("/{id}") {
             val id = call.parameters["id"]!!
+            val user = userDao.selectById(id) ?: throw ItemNotFoundException("There is no user with id $id")
+            call.respond(HttpStatusCode.OK, user)
+        }
+        get("/{id}/gym") {
+            val id = call.parameters["id"]!!
+            val user = userDao.selectById(id) ?: throw ItemNotFoundException("There is no user with id $id")
 
-            val user = userDao.selectById(id)
-            if (user == null) {
-                throw ItemNotFoundException("There is no user with id $id")
-            } else {
-                call.respond(HttpStatusCode.OK, user)
+            if (user.preferredGym == null) {
+                call.respond(HttpStatusCode.NoContent)
+                return@get
             }
+
+            val gym = gymDao.selectById(user.preferredGym)
+                ?: throw ItemNotFoundException("There was a problem getting the user's gym")
+
+            call.respond(HttpStatusCode.OK, gym)
         }
         post("/{id}/gym/add") {
             val gymId = call.receive<Map<String, String>>()["gymId"]
             val userId = call.parameters["id"]!!
 
-            if ( gymId == null) {
+            if (gymId == null) {
                 call.respond(HttpStatusCode.BadRequest, "gymId is required")
                 return@post
             }
