@@ -30,7 +30,10 @@ fun Route.instructors(instructorsDao: InstructorsDao, gymDao: GymDao) {
             val instructor =
                 instructorsDao.selectById(id) ?: throw ItemNotFoundException("There is no instructor with id $id")
 
-            if (instructor.gym == null) throw ItemNotFoundException("The instructor does not have a gym.")
+            if (instructor.gym == null){
+                call.respond(HttpStatusCode.NoContent)
+                return@get
+            }
 
             val gym =
                 gymDao.selectById(instructor.gym)
