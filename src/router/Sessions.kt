@@ -19,12 +19,12 @@ fun Route.sessions(sessionsDao: SessionsDao) {
         post("/create") {
             val session = call.receive<Session>().copy(id = miniUUID())
             sessionsDao.insert(session)
-            call.respond(HttpStatusCode.Created, ApiResponse("Session created"))
+            call.respond(HttpStatusCode.Created, session)
         }
         post("/update") {
             val session = call.receive<Session>()
             sessionsDao.update(session)
-            call.respond(HttpStatusCode.OK, ApiResponse("Session update"))
+            call.respond(HttpStatusCode.OK, ApiResponse("Session updated"))
         }
         delete("/delete/{id}") {
             val id = call.parameters["id"]!!
