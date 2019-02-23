@@ -1,5 +1,6 @@
 package com.marknjunge
 
+import com.marknjunge.model.ApiError
 import com.marknjunge.model.ApiResponse
 import com.marknjunge.router.apiRouter
 import com.marknjunge.router.staticRouter
@@ -46,7 +47,10 @@ fun Application.module() {
                     .replace("=", " ")
                 call.respond(HttpStatusCode.Conflict, ApiResponse("$message already exists"))
             } else {
-                call.respond(HttpStatusCode.InternalServerError, ApiResponse("An error has occurred: ${cause.message}"))
+                call.respond(
+                    HttpStatusCode.InternalServerError,
+                    ApiError("An error has occurred", cause.message.toString())
+                )
             }
         }
         status(HttpStatusCode.NotFound) {
@@ -77,7 +81,7 @@ fun Application.module() {
     }
 
     val vuepressDistFolder = File("resources/docs/.vuepress/dist")
-    if(!vuepressDistFolder.exists()) log.warn("vuepress has not been built. /docs will not be available.")
+    if (!vuepressDistFolder.exists()) log.warn("vuepress has not been built. /docs will not be available.")
 
     routing {
         staticRouter()
