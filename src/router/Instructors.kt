@@ -65,7 +65,7 @@ fun Route.instructors(instructorsDao: InstructorsDao, gymDao: GymDao) {
             call.respond(HttpStatusCode.Created, instructor)
         }
         post("/update") {
-            val instructor = call.receive<Instructor>().copy(id = miniUUID())
+            val instructor = call.receive<Instructor>()
             instructorsDao.update(instructor)
             call.respond(HttpStatusCode.OK, instructor)
         }
