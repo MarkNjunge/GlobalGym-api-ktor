@@ -1,14 +1,9 @@
 package com.marknjunge.db
 
-import com.marknjunge.model.Gym
 import com.marknjunge.model.User
-import org.jdbi.v3.core.mapper.RowMapper
-import org.jdbi.v3.core.statement.StatementContext
 import org.jdbi.v3.sqlobject.SingleValue
 import org.jdbi.v3.sqlobject.statement.SqlQuery
 import org.jdbi.v3.sqlobject.statement.SqlUpdate
-import org.jdbi.v3.sqlobject.statement.UseRowMapper
-import java.sql.ResultSet
 
 interface UserDao {
     @SqlUpdate(
@@ -19,6 +14,7 @@ interface UserDao {
           first_name    VARCHAR(255) NOT NULL,
           last_name     VARCHAR(255) NOT NULL,
           email         VARCHAR(255) NOT NULL UNIQUE,
+          phone         VARCHAR(255) NOT NULL,
           photo         VARCHAR(255) NOT NULL,
           year_of_birth INT          NOT NULL,
           gender        CHAR         NOT NULL,
@@ -33,8 +29,8 @@ interface UserDao {
 
     @SqlUpdate(
         """
-        INSERT INTO users(id, first_name, last_name, email, photo, year_of_birth, gender, country, weight, target_weight)
-        VALUES (:user.id, :user.firstName, :user.lastName, :user.email, :user.photo, :user.yearOfBirth, :user.gender, :user.country, :user.weight, :user.targetWeight)
+        INSERT INTO users(id, first_name, last_name, email, phone, photo, year_of_birth, gender, country, weight, target_weight)
+        VALUES (:user.id, :user.firstName, :user.lastName, :user.email, :user.phone, :user.photo, :user.yearOfBirth, :user.gender, :user.country, :user.weight, :user.targetWeight)
     """
     )
     fun insert(user: User)
@@ -46,6 +42,7 @@ interface UserDao {
               first_name    = :user.firstName,
               last_name     = :user.lastName,
               email         = :user.email,
+              phone         = :user.phone,
               photo         = :user.photo,
               year_of_birth = :user.yearOfBirth,
               gender        = :user.gender,

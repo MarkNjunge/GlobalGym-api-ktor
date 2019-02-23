@@ -13,12 +13,14 @@
         "firstName": "fName",
         "lastName": "lName",
         "email": "fName@mail.com",
+        "phone": "0724123456",
         "photo": "https://via.placeholder.com/500x500",
         "yearOfBirth": 1998,
         "gender": "M",
         "country": "Kenya",
         "weight": 65,
-        "targetWeight": 60
+        "targetWeight": 60,
+        "preferredGym": "88acc3d8"
     }
 ]
 ```
@@ -35,12 +37,14 @@
     "firstName": "fName",
     "lastName": "lName",
     "email": "fName@mail.com",
+    "phone": "0724123456",
     "photo": "https://via.placeholder.com/500x500",
     "yearOfBirth": 1998,
     "gender": "M",
     "country": "Kenya",
     "weight": 65,
-    "targetWeight": 60
+    "targetWeight": 60,
+    "preferredGym": "88acc3d8"
 }
 ```
 #### 404
@@ -61,9 +65,10 @@
 #### 200
 ```Json
 {
-    "id": "3f9bd5b3",
+    "id": "88acc3d8",
     "name": "Another Gym",
     "logo": "https://via.placeholder.com/700x500",
+    "phone": "0712345678",
     "website": "https://website.com/",
     "images": [
         "https://via.placeholder.com/700x500"
@@ -122,6 +127,7 @@
     "firstName": "fName",
     "lastName": "lName",
     "email": "fName@mail.com",
+    "phone": "0724123456",
     "photo": "https://via.placeholder.com/500x500",
     "yearOfBirth": 1998,
     "gender": "M",
@@ -129,6 +135,7 @@
     "weight": 65,
     "targetWeight": 60
 }
+
 ```
 
 ### Response
@@ -139,6 +146,7 @@
     "firstName": "fName",
     "lastName": "lName",
     "email": "fName@mail.com",
+    "phone": "0724123456",
     "photo": "https://via.placeholder.com/500x500",
     "yearOfBirth": 1998,
     "gender": "M",
@@ -165,6 +173,7 @@
     "firstName": "fName",
     "lastName": "lName",
     "email": "fName@mail.com",
+    "phone": "0724123456",
     "photo": "https://via.placeholder.com/500x500",
     "yearOfBirth": 1998,
     "gender": "M",
@@ -172,6 +181,7 @@
     "weight": 65,
     "targetWeight": 60
 }
+
 ```
 
 ### Response
@@ -182,6 +192,7 @@
     "firstName": "fName",
     "lastName": "lName",
     "email": "fName@mail.com",
+    "phone": "0724123456",
     "photo": "https://via.placeholder.com/500x500",
     "yearOfBirth": 1998,
     "gender": "M",
@@ -189,4 +200,5 @@
     "weight": 65,
     "targetWeight": 60
 }
+
 ```

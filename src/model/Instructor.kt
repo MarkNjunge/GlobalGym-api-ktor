@@ -11,6 +11,8 @@ data class Instructor(
     val lastName: String,
     @ColumnName("email")
     val email: String,
+    @ColumnName("phone")
+    val phone: String,
     @ColumnName("photo")
     val photo: String,
     @ColumnName("year_of_birth")

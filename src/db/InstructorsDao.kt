@@ -14,6 +14,7 @@ interface InstructorsDao {
           first_name    VARCHAR(255) NOT NULL,
           last_name     VARCHAR(255) NOT NULL,
           email         VARCHAR(255) NOT NULL UNIQUE,
+          phone         VARCHAR(255) NOT NULL UNIQUE,
           photo         VARCHAR(255) NOT NULL,
           year_of_birth INT          NOT NULL,
           gender        CHAR         NOT NULL,
@@ -26,8 +27,8 @@ interface InstructorsDao {
 
     @SqlUpdate(
         """
-        INSERT INTO instructors(id, first_name, last_name, email, photo, year_of_birth, gender, country)
-        VALUES (:instructor.id, :instructor.firstName, :instructor.lastName, :instructor.email, :instructor.photo, :instructor.yearOfBirth, :instructor.gender, :instructor.country)
+        INSERT INTO instructors(id, first_name, last_name, email, phone, photo, year_of_birth, gender, country)
+        VALUES (:instructor.id, :instructor.firstName, :instructor.lastName, :instructor.email, :instructor.phone, :instructor.photo, :instructor.yearOfBirth, :instructor.gender, :instructor.country)
     """
     )
     fun insert(instructor: Instructor)
@@ -39,6 +40,7 @@ interface InstructorsDao {
               first_name    = :instructor.firstName,
               last_name     = :instructor.lastName,
               email         = :instructor.email,
+              phone         = :instructor.phone,
               photo         = :instructor.photo,
               year_of_birth = :instructor.yearOfBirth,
               gender        = :instructor.gender,

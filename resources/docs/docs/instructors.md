@@ -9,10 +9,11 @@
 ```Json
 [
     {
-        "id": "e9a7bb8b",
+        "id": "8aba1616",
         "firstName": "fName",
         "lastName": "lName",
         "email": "fName@mail.com",
+        "phone": "0724123546",
         "photo": "https://via.placeholder.com/500x500",
         "yearOfBirth": 1998,
         "gender": "M",
@@ -29,10 +30,11 @@
 #### 200
 ```Json
 {
-    "id": "e9a7bb8b",
+    "id": "8aba1616",
     "firstName": "fName",
     "lastName": "lName",
     "email": "fName@mail.com",
+    "phone": "0724123546",
     "photo": "https://via.placeholder.com/500x500",
     "yearOfBirth": 1998,
     "gender": "M",
@@ -118,21 +120,23 @@ No Content
     "firstName": "fName",
     "lastName": "lName",
     "email": "fName@mail.com",
+    "phone": "0724123546",
     "photo": "https://via.placeholder.com/500x500",
     "yearOfBirth": 1998,
     "gender": "M",
     "country": "Kenya"
-  }
+}
 ```
 
 ### Response
 #### 201
 ```Json
 {
-    "id": "e9a7bb8b",
+    "id": "8aba1616",
     "firstName": "fName",
     "lastName": "lName",
     "email": "fName@mail.com",
+    "phone": "0724123546",
     "photo": "https://via.placeholder.com/500x500",
     "yearOfBirth": 1998,
     "gender": "M",
@@ -153,10 +157,11 @@ No Content
 
 ```Json
 {
-    "id": "e9a7bb8b",
+    "id": "8aba1616",
     "firstName": "fName",
     "lastName": "lName",
     "email": "fName@mail.com",
+    "phone": "0724123546",
     "photo": "https://via.placeholder.com/500x500",
     "yearOfBirth": 1998,
     "gender": "M",
@@ -168,10 +173,11 @@ No Content
 #### 200
 ```Json
 {
-    "id": "e9a7bb8b",
+    "id": "8aba1616",
     "firstName": "fName",
     "lastName": "lName",
     "email": "fName@mail.com",
+    "phone": "0724123546",
     "photo": "https://via.placeholder.com/500x500",
     "yearOfBirth": 1998,
     "gender": "M",
