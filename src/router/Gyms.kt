@@ -55,15 +55,6 @@ fun Route.gyms(gymDao: GymDao) {
             gymDao.update(gym)
             call.respond(HttpStatusCode.OK, gym)
         }
-
-        route("/instructors") {
-            post("/add") {
-                call.respond(HttpStatusCode.NotImplemented, ApiResponse("Not implemented"))
-            }
-            post("/remove") {
-                call.respond(HttpStatusCode.NotImplemented, ApiResponse("Not implemented"))
-            }
-        }
     }
 }
 
