@@ -2,24 +2,33 @@
 # GlobalGym API
 A rewrite of [GlobalGym](https://github.com/MarkNjunge/GlobalGym-Android)'s api using [Ktor](https://ktor.io).
 
-## Installation
-- Create a [PostgreSQL](https://www.postgresql.org/) database.
+## Built with
 
-- Clone the repository
+[Ktor](https://ktor.io/) - Web framework
+
+[Jdbi](https://github.com/jdbi/jdbi) - Database access
+
+[VuePress](https://vuepress.vuejs.org/) - Routes documentation
+
+
+## Installation
+Create a [PostgreSQL](https://www.postgresql.org/) database.
+
+Clone the repository
 ```
 git clone git@github.com:MarkNjunge/GlobalGym-api-ktor.git
 ```
 
-- Create an `application.conf` in resources based on `resources/application.conf`.
+Create an `application.conf` in resources based on `resources/application.conf`.
 ```
 cp resources/application.conf.sample resources/application.conf
 ```
-- Modify the database config to match your settings.
-- Build the routes documentation.  Requires [VuePress](https://vuepress.vuejs.org/) to be installed.
+Modify the database config to match your settings.
+Build the routes documentation.  Requires [VuePress](https://vuepress.vuejs.org/) to be installed.
 ```
 vuepress build resources\docs
 ```
-- Run the main function in `Application.kt` in an IDE or run the command below in a cli
+Run the main function in `Application.kt` in an IDE, or run the command below in a cli
 ```
 gradlew run
 ```
@@ -51,14 +60,9 @@ You can then run the jar using
 java -jar build\libs\globalgym-api.jar
 ```
 ### Docker
-Build the routes documentation.  Requires [VuePress](https://vuepress.vuejs.org/) to be installed.
-```
-vuepress build resources\docs
-```
-Build the jar
-```Bash
-gradlew shadowJar
-```
+
+Use the instructions above to first build the jar
+
 Build a docker image
 ```Bash
 docker build -t globalgym-api .
@@ -67,7 +71,3 @@ Run the image
 ```Bash
 docker run -it -p 3000:3000 --rm globalgym-api
 ```
-## Built with
-[Ktor](https://ktor.io/) - Web framework
-
-[Jdbi](https://github.com/jdbi/jdbi) - Database access
