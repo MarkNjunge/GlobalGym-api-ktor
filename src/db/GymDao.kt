@@ -39,6 +39,9 @@ interface GymDao {
     @SqlQuery("SELECT * FROM gyms")
     fun selectAll(): List<Gym>
 
+    @SqlQuery("SELECT * FROM gyms WHERE gyms.country = :country")
+    fun selectAllInCountry(country: String): List<Gym>
+
     @SqlQuery("SELECT * FROM gyms WHERE gyms.id = :gymId")
     @SingleValue
     fun selectById(gymId: String): Gym?

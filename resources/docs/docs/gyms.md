@@ -61,7 +61,7 @@
 ```
 ## Get nearby gyms
 
-`GET` `/api/gyms/nearby`
+`GET` `/api/gyms/nearby?country={country}&lat={latitude}&lng={longitude}&radius={radius}`
 
 ### Response
 #### 200

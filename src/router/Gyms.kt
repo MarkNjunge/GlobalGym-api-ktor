@@ -30,11 +30,19 @@ fun Route.gyms(gymDao: GymDao) {
             }
         }
         get("/nearby") {
-//            val lat = call.request.queryParameters["lat"]
-//            val lng = call.request.queryParameters["lng"]
-//            val radius = call.request.queryParameters["radius"]
-            // TODO query database for nearby
-            call.respondRedirect("/api/gyms", true)
+            val lat = call.request.queryParameters["lat"]
+            val lng = call.request.queryParameters["lng"]
+            val radius = call.request.queryParameters["radius"]
+            val country = call.request.queryParameters["country"]
+
+            if (country.isNullOrEmpty() || lat.isNullOrEmpty() || lng.isNullOrEmpty() || radius.isNullOrEmpty()) {
+                call.respond(HttpStatusCode.BadRequest, ApiResponse("country,lat,lng,radius query parameters are required"))
+                return@get
+            }
+
+            // TODO Use latitude and longitude
+            val gyms = gymDao.selectAllInCountry(country)
+            call.respond(HttpStatusCode.OK, gyms)
         }
         get("/search") {
             val name = call.request.queryParameters["name"]
