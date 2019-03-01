@@ -4,6 +4,7 @@ import com.marknjunge.model.ApiError
 import com.marknjunge.model.ApiResponse
 import com.marknjunge.router.apiRouter
 import com.marknjunge.router.staticRouter
+import com.marknjunge.utils.Config
 import com.marknjunge.utils.ItemNotFoundException
 import io.ktor.application.*
 import io.ktor.response.*

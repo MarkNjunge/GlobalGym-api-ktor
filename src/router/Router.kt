@@ -1,6 +1,6 @@
 package com.marknjunge.router
 
-import com.marknjunge.Config
+import com.marknjunge.utils.Config
 import com.marknjunge.db.Database
 import io.ktor.application.call
 import io.ktor.http.content.*

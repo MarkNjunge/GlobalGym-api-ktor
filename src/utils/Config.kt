@@ -1,20 +1,19 @@
 @file:Suppress("EXPERIMENTAL_API_USAGE")
 
-package com.marknjunge
+package com.marknjunge.utils
 
 import io.ktor.application.Application
 
 class Config(application: Application) {
     val database = Database(application)
-    val authKey = System.getenv("AUTH_KEY") ?: application.configVar("other.authKey")
+    val authKey = application.envOrConfigVar("AUTH_KEY", "other.authKey")
 
     class Database(application: Application) {
-        val url = System.getenv("DATABASE_URL") ?: application.configVar("database.url")
-        val username = System.getenv("DATABASE_USERNAME") ?: application.configVar("database.username")
-        val password = System.getenv("DATABASE_PASSWORD") ?: application.configVar("database.password")
+        val url = application.envOrConfigVar("DATABASE_URL", "database.url")
+        val username = application.envOrConfigVar("DATABASE_USERNAME", "database.username")
+        val password = application.envOrConfigVar("DATABASE_PASSWORD", "database.password")
     }
 }
 
-private fun Application.configVar(path: String): String {
-    return environment.config.property(path).getString()
-}
+private fun Application.envOrConfigVar(env: String, path: String) =
+    System.getenv(env) ?: environment.config.property(path).getString()
