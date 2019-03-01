@@ -44,6 +44,7 @@ priority over the config file.
 | DATABASE_URL      | database.url                |
 | DATABASE_USERNAME | database.username           |
 | DATABASE_PASSWORD | database.password           |
+| AUTH_KEY          | other.authKey               |
 
 ## Building
 ### Jar

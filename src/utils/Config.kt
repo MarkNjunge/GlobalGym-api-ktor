@@ -6,6 +6,7 @@ import io.ktor.application.Application
 
 class Config(application: Application) {
     val database = Database(application)
+    val authKey = System.getenv("AUTH_KEY") ?: application.configVar("other.authKey")
 
     class Database(application: Application) {
         val url = System.getenv("DATABASE_URL") ?: application.configVar("database.url")
@@ -14,6 +15,6 @@ class Config(application: Application) {
     }
 }
 
-fun Application.configVar(path: String): String {
+private fun Application.configVar(path: String): String {
     return environment.config.property(path).getString()
 }

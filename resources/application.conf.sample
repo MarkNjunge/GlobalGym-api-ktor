@@ -13,3 +13,6 @@ database {
     username = "postgres"
     password = "postgres"
 }
+other {
+    authKey = "CKr8nLVcWbEw99KT"
+}

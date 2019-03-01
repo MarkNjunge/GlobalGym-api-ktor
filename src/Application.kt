@@ -83,7 +83,27 @@ fun Application.module() {
     val vuepressDistFolder = File("resources/docs/.vuepress/dist")
     if (!vuepressDistFolder.exists()) log.warn("vuepress has not been built. /docs will not be available.")
 
+    val config = Config(this)
+
     routing {
+        application.intercept(ApplicationCallPipeline.Call) {
+            if (call.request.path().contains("api")) {
+                val authHeader = call.request.header("AuthKey")
+
+                if (authHeader.isNullOrEmpty()){
+                    call.respond(HttpStatusCode.Unauthorized, ApiResponse("Authentication not provided"))
+                    finish()
+                    return@intercept
+                }
+
+                if (authHeader != config.authKey) {
+                    call.respond(HttpStatusCode.Forbidden, ApiResponse("Invalid authentication"))
+                    finish()
+                    return@intercept
+                }
+            }
+        }
+
         staticRouter()
         apiRouter()
     }
