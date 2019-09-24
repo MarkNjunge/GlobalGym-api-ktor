@@ -19,12 +19,11 @@ Clone the repository
 git clone git@github.com:MarkNjunge/GlobalGym-api-ktor.git
 ```
 
-Create an `application.conf` in resources based on `resources/application.conf`.
+Create an `application.conf` in resources based on `resources/application.conf.sample`.
 ```
 cp resources/application.conf.sample resources/application.conf
 ```
-Modify the database config to match your settings.
-Build the routes documentation.  Requires [VuePress](https://vuepress.vuejs.org/) to be installed.
+[Optional] Build the routes documentation.  Requires [VuePress](https://vuepress.vuejs.org/) to be installed.
 ```
 vuepress build resources\docs
 ```
